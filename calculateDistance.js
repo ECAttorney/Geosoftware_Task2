@@ -1,22 +1,20 @@
 "use strict"
 
-//  Längen- bzw. Breitengrade von dem vorgegeben Punkt in jeweils einer Variable speichern
-var lat1 = point[1];
-var lon1 = point[0];
-
-// Array erstellen, welche so groß wie "cities" ist
-var distances= Array.apply(null, Array[cities.length])
-
 // Über diese Variable wird später die Auflistung auf der HTML-Seite ausgegeben
 var ausgabe = "";
 
 // Funktion, welche die Distanz zwischen 2 Punkten berechnet. Quelle: https://www.movable-type.co.uk/scripts/latlong.html
-function calculateDistance(){
+function calculateDistance(newPoint){
 
-    for(var i = 0; i < cities.length; i++){
+    let countOfPois = (pois.feature.length)
+    console.log(countOfPois);
 
-        var lon2 = cities[i][0];
-        var lat2 = cities[i][1];
+    for(var i = 0; i < 16; i++){
+
+        var lat1 = newPoint[0];
+        var lat2 = newPoint[1];
+        //var lon2 = pois
+        //var lat2 = pois
     
         const R = 6371e3; 
         const φ1 = lat1 * Math.PI/180; 
@@ -60,5 +58,3 @@ let bubbleSort = (inputArr) => {
     }
     
 };
-
-calculateDistance();
