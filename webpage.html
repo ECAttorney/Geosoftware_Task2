@@ -6,9 +6,9 @@
         <meta http-equiv='X-UA-Compatible" content="IE=edge'>
         <meta name='viewport" content='width=device-width, initial-scale=1.0'>                    
         <title> Distance calculator! </title>  
-        <!-- <script src='cities.js'> </script> -->
         <script src='point.js'> </script> 
-        <!-- <script src='calculateDistance.js'> </script> -->
+        <script src='poi.js'> </script> 
+        <script src='calculateDistance.js'> </script>
         <link rel="stylesheet" href="stylesheet.css">                
                               
 
@@ -22,39 +22,147 @@
 
         <br /><br /><br /><br /><br /><br /><br />
     
-
+        <!-- Hier erstelle ich ein Textfeld, wo man sowohl das GeoJSON einfügen, aber auch der aktuelle Standort als GeoJSON angezeigt wird-->
         <div>  
-            <textarea id="text" name="text" cols="35" rows="4" placeholder="GeoJSON hier einfügen..." ></textarea> 	
+            <textarea id="textfield" type = "text" name="text" cols="35" rows="4" placeholder="GeoJSON hier einfügen..." ></textarea> 	
         </div> 
 
-        <p>Click the button to get your coordinates.</p>
+        <!-- Hier erstelle ich einen Button, mit welchem ich die Funktion "getLocation ausführe"-->
+        <div>
+            <p>Press the Button to get your coordinates!</p>
+            <button onclick="getLocation()"></button>
+            <p id="demo"></p>
+        </div>
 
-        <button onclick="getLocation()">Try It</button>
+        <div>
+            <p>Press the Button to calculate the distance with your point!</p>
+            <button onclick="calculatePoint()"> </button>
+        </div>
 
-        <p id="demo"></p>
+        <p id="ausgabe">  </p>
 
         <script>
 
-        var x = document.getElementById("demo");
+    /*
+            
+                var low = {
+    "type": "FeatureCollection",
+    "features": [
+    {
+    "type": "Feature",
+    "properties": {
+    "shape": "Marker",
+    "name": "Hauptbahnhof",
+    "category": "default"
+    },
+    "geometry": {
+    "type": "Point",
+    "coordinates": [
+    7.634876,
+    51.957004
+    ]
+    },
+    "id": "1f1c1e76-de1e-4bf5-b927-0a0bdb59a10e"
+    },]}
+        console.log(low.features.name)
+    */
+    
 
+        function calculatePoint(){
+
+            let variable = document.getElementById("textfield")
+
+            //testing if variable is responding correctly
+            console.log(variable)
+
+            // Here I check, whether the input is viable as a JSON/GeoJSON object
+            if(isJsonString(variable.value)){
+
+                // Here I check, whether the GeoJSON is a point, because only than i can calculate properly
+                if(JSON.parse(variable.value).type == "Point"){
+
+                    point = JSON.parse(variable.value)
+                    calculateDistance(point)
+                }
+                else{
+                    alert("WRONG INPUT! PLEASE TRY AGAIN")
+                }      
+
+            }
+            else{
+                alert("WRONG INPUT! PLEASE TRY AGAIN")
+            }
+
+
+        }
+
+
+
+
+        //https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string       
+        function isJsonString(str) {
+            try{
+
+            JSON.parse(str);
+
+            } 
+            
+            catch (e){
+
+            return false;
+
+            }
+
+            return true;
+        }
+      
+        
+
+        /**
+         *  This function is used, when the first button is pushed. It determines your location. This function is given in the task's description.
+         *  source: https://www.w3schools.com/html/html5_geolocation.asp
+        */
         function getLocation() {
-        if (navigator.geolocation) {
+
+            var x = document.getElementById("demo");
+
+            if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-        } else { 
+            }   
+            else{ 
             x.innerHTML = "Geolocation is not supported by this browser.";
-        }
+            }
+
         }
 
+        
         function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude + 
-        "<br>Longitude: " + position.coords.longitude;
+
+            let location = new Array(position.coords.longitude, position.coords.latitude)
+
+            location = new JSONConstructor(location, "Point")
+
+            document.getElementById("textfield").innerHTML = JSON.stringify(location)
+
+        
+        
+            let reader = new FileReader();
+
+            reader = JSON.stringify(document.getElementById("textfield").value);
+
+            console.log(reader);
+
+        }
+        
+        function JSONConstructor(array, type){
+
+            this.type = type
+            this.coordinates = array
+
         }
 
-        //document.getElementById("ausgabe").innerHTML = ausgabe;
 
-        var a = "test";
-        console.log(a)
-
+        document.getElementById("ausgabe").innerHTML = ausgabe;
 
         </script>
         
