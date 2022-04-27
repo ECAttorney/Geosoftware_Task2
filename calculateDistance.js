@@ -6,15 +6,17 @@ var ausgabe = "";
 // Funktion, welche die Distanz zwischen 2 Punkten berechnet. Quelle: https://www.movable-type.co.uk/scripts/latlong.html
 function calculateDistance(newPoint){
 
-    let countOfPois = (pois.value[1].length)
+    let countOfPois = (pois.features.length)
     console.log(countOfPois);
+
+    var distances= Array.apply(null, Array[countOfPois])
 
     for(var i = 0; i < countOfPois; i++){
 
-        var lat1 = newPoint[0];
-        var lat2 = newPoint[1];
-        //var lon2 = pois
-        //var lat2 = pois
+        var lon1 = newPoint[0];
+        var lat1 = newPoint[1];
+        var lon2 = pois.features[i].geometry.coordinates[0]
+        var lat2 = pois.features[i].geometry.coordinates[1]
     
         const R = 6371e3; 
         const φ1 = lat1 * Math.PI/180; 
@@ -33,14 +35,14 @@ function calculateDistance(newPoint){
 
     }
 
-// Hier wird das Array nun mittels Bubblesort der Entfernung nach aufsteigend sortiert
-bubbleSort(distances);
+    // Hier wird das Array nun mittels Bubblesort der Entfernung nach aufsteigend sortiert
+    bubbleSort(distances);
 
-for(var i = 0; i < distances.length; i++) {
+    for(var i = 0; i < distances.length; i++) {
 
-ausgabe = ausgabe + distances[i] + " Meter <br />";
+    ausgabe = ausgabe + distances[i] + " Meter <br />";
 
-}
+    }
 
 }
 

@@ -4,7 +4,9 @@
 
         <meta charset='UTF-8'>
         <meta http-equiv='X-UA-Compatible" content="IE=edge'>
-        <meta name='viewport" content='width=device-width, initial-scale=1.0'>                    
+        <meta name='viewport" content='width=device-width, initial-scale=1.0'>    
+        <meta name="author" content="Luca Hesse"/>
+        <meta name="description" content="Distanzberechnung."/>                  
         <title> Distance calculator! </title>  
         <script src='point.js'> </script> 
         <script src='poi.js'> </script> 
@@ -39,38 +41,11 @@
             <button onclick="calculatePoint()"> </button>
         </div>
 
-        <p id="ausgabe">  </p>
+        <p id="ausgabe"> </p>
 
         <script>
 
-            /*
-                    
-                        var low = {
-            "type": "FeatureCollection",
-            "features": [
-            {
-            "type": "Feature",
-            "properties": {
-            "shape": "Marker",
-            "name": "Hauptbahnhof",
-            "category": "default"
-            },
-            "geometry": {
-            "type": "Point",
-            "coordinates": [
-            7.634876,
-            51.957004
-            ]
-            },
-            "id": "1f1c1e76-de1e-4bf5-b927-0a0bdb59a10e"
-            },]}
-                console.log(low.features.name)
-            */
-    
-            /**
-             * this function activates, when the second button is pushed. it takes the input from the textfield and checks, whether it is an valid GeoJSON and afterwards if it is a point. 
-             * Lastly it takes the point and uses it for the calculation.
-             */ 
+
             function calculatePoint(){
 
                 let JSON_input = document.getElementById("textfield")
@@ -128,6 +103,7 @@
                 }
 
                 return true;
+
             }
         
             
@@ -155,26 +131,19 @@
             function showPosition(position) {
 
                 let location = new Array(position.coords.longitude, position.coords.latitude);
-
                 location = new JSONConstructor(location, "Point");
-
                 document.getElementById("textfield").innerHTML = JSON.stringify(location);
-
-                let reader = new FileReader();
-
-                reader = JSON.stringify(document.getElementById("textfield").value);
-
-                console.log(reader);
 
             }
             
             /**
-             * This functions as a normal constructor, to construct an 
+             * This functions as a normal constructor, to construct an GeoJSON object
              */
             function JSONConstructor(array, type){
 
                 this.type = type;
                 this.coordinates = array;
+                console.log(this)
 
             }
 
