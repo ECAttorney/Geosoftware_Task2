@@ -1,6 +1,11 @@
 "use strict"
 
 /**
+ * @author - Luca Hesse
+ */
+
+
+/**
  * @description This function takes a point and a list of points. It calculates the distance between the point to all the other points in the list.
  * @param {newPoint} - this point is used for the distance calculation. It is recieved through the function calculatePoint directly taken from the textarea
  * source: https://www.movable-type.co.uk/scripts/latlong.html
