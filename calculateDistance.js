@@ -13,8 +13,9 @@ function calculateDistance(newPoint){
 
     for(var i = 0; i < countOfPois; i++){
 
-        var lon1 = newPoint[0];
-        var lat1 = newPoint[1];
+        var lon1 = newPoint.coordinates[0];
+        console.log(lon1)
+        var lat1 = newPoint.coordinates[1];
         var lon2 = pois.features[i].geometry.coordinates[0]
         var lat2 = pois.features[i].geometry.coordinates[1]
     
