@@ -1,12 +1,16 @@
 "use strict"
 
-// Über diese Variable wird später die Auflistung auf der HTML-Seite ausgegeben
-
-
-// Funktion, welche die Distanz zwischen 2 Punkten berechnet. Quelle: https://www.movable-type.co.uk/scripts/latlong.html
+/**
+ * @description This function takes a point and a list of points. It calculates the distance between the point to all the other points in the list.
+ * @param {newPoint} - this point is used for the distance calculation. It is recieved through the function calculatePoint directly taken from the textarea
+ * source: https://www.movable-type.co.uk/scripts/latlong.html
+ */
 function calculateDistance(newPoint){
 
+    // number of pois
     let countOfPois = (pois.features.length)
+
+    // testing
     console.log(countOfPois);
 
     var distances= Array.apply(null, Array[countOfPois])
@@ -15,6 +19,7 @@ function calculateDistance(newPoint){
 
         var lon1 = newPoint.coordinates[0];
         var lat1 = newPoint.coordinates[1];
+
         var lon2 = pois.features[i].geometry.coordinates[0]
         var lat2 = pois.features[i].geometry.coordinates[1]
     
@@ -35,22 +40,30 @@ function calculateDistance(newPoint){
 
     }
 
-    // Hier wird das Array nun mittels Bubblesort der Entfernung nach aufsteigend sortiert
+    // Array gets sorted with bubblesort
     bubbleSort(distances);
 
+    // definition of the output variable 
     var ausgabe = "";
 
+    // in this loop the output variable gets filled with the sorted Array
     for(var i = 0; i < distances.length; i++) {
 
     ausgabe = ausgabe + distances[i] + " Meter <br />";
 
     }
 
+    // output to the HTML page
     document.getElementById("ausgabe").innerHTML = ausgabe;
 
 }
 
-// Funktion um ein Array mittels Bubblesort zu sortieren. Quelle: https://flexiple.com/bubble-sort-javascript
+/**
+ * @description Function to do a bubblesort with an ARRAY
+ * @param {inputArr} - unssorted Array, which should be sorted after the function is over
+ * source: https://flexiple.com/bubble-sort-javascript
+ * Arrow-Function 
+ */
 let bubbleSort = (inputArr) => {
     let len = inputArr.length;
     for (let i = 0; i < len; i++) {

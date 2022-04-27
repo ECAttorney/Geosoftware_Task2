@@ -6,4 +6,6 @@ html{background: linear-gradient(to right, brown, green);}
 
 h1{text-align: center; color: antiquewhite;}
 
-button{text-align: center;}
+Body{
+    text-align: center;
+}

@@ -6,7 +6,7 @@
         <meta http-equiv='X-UA-Compatible" content="IE=edge'>
         <meta name='viewport" content='width=device-width, initial-scale=1.0'>    
         <meta name="author" content="Luca Hesse"/>
-        <meta name="description" content="Distanzberechnung."/>                  
+        <meta name="description" content="Distanzberechnung von Punkten."/>                  
         <title> Distance calculator! </title>  
         <script src='point.js'> </script> 
         <script src='poi.js'> </script> 
@@ -18,11 +18,11 @@
 
     <body>
 
+        <!-- Heading-->
         <h1>  Distance Calculator! </h1>
 
         <p id="first">  Here you can calculate the distances between points!  </p>
 
-        <br /><br /><br /><br /><br /><br /><br />
     
         <!-- Hier erstelle ich ein Textfeld, wo man sowohl das GeoJSON einfügen, aber auch der aktuelle Standort als GeoJSON angezeigt wird-->
         <div>  
@@ -42,13 +42,18 @@
             <button onclick="calculatePoint()"> </button>
         </div>
 
+        <!-- Über diesen Paragraphen wird die Ausgabe auf der Seite angezeigt -->
         <p id="ausgabe"> </p>
 
         <script>
 
-
+            /**
+             * @description This function is activated by the second button and it basically checks, whether the String, which is in the Textarea, is a valid JSON-String and if it is, the JSON gets transformed into a point
+             *              and the calculateDistance function gets called with point as a parameter
+             */
             function calculatePoint(){
 
+                // The input of the textarea is saved as JSON_input
                 let JSON_input = document.getElementById("textfield")
 
                 // testing 
@@ -61,7 +66,11 @@
                     if(JSON.parse(JSON_input.value).type == "Point"){
 
                         point = JSON.parse(document.getElementById("textfield").value);
+
+                        //testing 
                         console.log(point)
+
+                        // calculation of the distances with the new point, which got parsed from JSON
                         calculateDistance(point);
                     }
                     else{
@@ -84,8 +93,7 @@
 
 
             /**
-             * 
-             * This function checks, whether a JSON input is valid
+             * @description This function checks, whether a JSON input is valid
              * source: https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string
              * @return  returns a boolean result, depending if the JSON input is valid or not
             */   
@@ -110,7 +118,7 @@
             
 
             /**
-             *  This function is used, when the first button is pushed. It determines your location. This function is given in the task's description.
+             *  @description This function is used, when the first button is pushed. It determines your location. This function is given in the task's description.
              *  source: https://www.w3schools.com/html/html5_geolocation.asp
             */
             function getLocation() {
@@ -127,18 +135,26 @@
             }
 
             /**
-             * This function fills in the GeoJSON into the textfield
+             * @description This function fills in the GeoJSON into the textfield
+             * @param {position}
              */
             function showPosition(position) {
 
-                let location = new Array(position.coords.longitude, position.coords.latitude);
-                location = new JSONConstructor(location, "Point");
-                document.getElementById("textfield").innerHTML = JSON.stringify(location);
+                // coordinates of the points get filled into an Array, so we can parse it into an GeoJSON object
+                let loc = new Array(position.coords.longitude, position.coords.latitude);
+
+                // creating a new GeoJSON object
+                loc = new JSONConstructor(loc, "Point");
+
+                // textarea gets filled with the JSON String
+                document.getElementById("textfield").innerHTML = JSON.stringify(loc);
 
             }
             
             /**
-             * This functions as a normal constructor, to construct an GeoJSON object
+             * @description This functions as a normal constructor, to construct an GeoJSON object
+             * @param {array} - Array with coordinates
+             * @param {type} - Type of the desired JSON/GeoJSON type (in our case point)
              */
             function JSONConstructor(array, type){
 
