@@ -43,126 +43,142 @@
 
         <script>
 
-    /*
-            
-                var low = {
-    "type": "FeatureCollection",
-    "features": [
-    {
-    "type": "Feature",
-    "properties": {
-    "shape": "Marker",
-    "name": "Hauptbahnhof",
-    "category": "default"
-    },
-    "geometry": {
-    "type": "Point",
-    "coordinates": [
-    7.634876,
-    51.957004
-    ]
-    },
-    "id": "1f1c1e76-de1e-4bf5-b927-0a0bdb59a10e"
-    },]}
-        console.log(low.features.name)
-    */
+            /*
+                    
+                        var low = {
+            "type": "FeatureCollection",
+            "features": [
+            {
+            "type": "Feature",
+            "properties": {
+            "shape": "Marker",
+            "name": "Hauptbahnhof",
+            "category": "default"
+            },
+            "geometry": {
+            "type": "Point",
+            "coordinates": [
+            7.634876,
+            51.957004
+            ]
+            },
+            "id": "1f1c1e76-de1e-4bf5-b927-0a0bdb59a10e"
+            },]}
+                console.log(low.features.name)
+            */
     
+            /**
+             * this function activates, when the second button is pushed. it takes the input from the textfield and checks, whether it is an valid GeoJSON and afterwards if it is a point. 
+             * Lastly it takes the point and uses it for the calculation.
+             */ 
+            function calculatePoint(){
 
-        function calculatePoint(){
+                let JSON_input = document.getElementById("textfield")
 
-            let variable = document.getElementById("textfield")
+                // testing 
+                console.log(JSON_input);
 
-            //testing if variable is responding correctly
-            console.log(variable)
+                // Here I check, whether the input is viable as a JSON/GeoJSON object
+                if(isJsonString(JSON_input.value)){
 
-            // Here I check, whether the input is viable as a JSON/GeoJSON object
-            if(isJsonString(variable.value)){
+                    // Here I check, whether the GeoJSON is a point, because only than i can calculate properly
+                    if(JSON.parse(JSON_input.value).type == "Point"){
 
-                // Here I check, whether the GeoJSON is a point, because only than i can calculate properly
-                if(JSON.parse(variable.value).type == "Point"){
+                        point = JSON.parse(JSON_input.value);
+                        console.log(point)
+                        calculateDistance(point);
+                    }
+                    else{
 
-                    point = JSON.parse(variable.value)
-                    calculateDistance(point)
+                        // Error!
+                        alert("WRONG INPUT! PLEASE TRY AGAIN");
+
+                    }      
+
                 }
                 else{
-                    alert("WRONG INPUT! PLEASE TRY AGAIN")
-                }      
+
+                    // Error!
+                    alert("WRONG INPUT! PLEASE TRY AGAIN");
+
+                }
+
 
             }
-            else{
-                alert("WRONG INPUT! PLEASE TRY AGAIN")
+
+
+            /**
+             * 
+             * This function checks, whether a JSON input is valid
+             * source: https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string
+             * @return  returns a boolean result, depending if the JSON input is valid or not
+            */   
+            function isJsonString(str) {
+
+                try{
+
+                JSON.parse(str);
+
+                } 
+
+                catch (e){
+
+                return false;
+
+                }
+
+                return true;
             }
-
-
-        }
-
-
-
-
-        //https://stackoverflow.com/questions/3710204/how-to-check-if-a-string-is-a-valid-json-string       
-        function isJsonString(str) {
-            try{
-
-            JSON.parse(str);
-
-            } 
+        
             
-            catch (e){
 
-            return false;
+            /**
+             *  This function is used, when the first button is pushed. It determines your location. This function is given in the task's description.
+             *  source: https://www.w3schools.com/html/html5_geolocation.asp
+            */
+            function getLocation() {
+
+                var x = document.getElementById("demo");
+
+                if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+                }   
+                else{ 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+                }
 
             }
 
-            return true;
-        }
-      
-        
+            /**
+             * This function fills in the GeoJSON into the textfield
+             */
+            function showPosition(position) {
 
-        /**
-         *  This function is used, when the first button is pushed. It determines your location. This function is given in the task's description.
-         *  source: https://www.w3schools.com/html/html5_geolocation.asp
-        */
-        function getLocation() {
+                let location = new Array(position.coords.longitude, position.coords.latitude);
 
-            var x = document.getElementById("demo");
+                location = new JSONConstructor(location, "Point");
 
-            if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-            }   
-            else{ 
-            x.innerHTML = "Geolocation is not supported by this browser.";
+                document.getElementById("textfield").innerHTML = JSON.stringify(location);
+
+                let reader = new FileReader();
+
+                reader = JSON.stringify(document.getElementById("textfield").value);
+
+                console.log(reader);
+
+            }
+            
+            /**
+             * This functions as a normal constructor, to construct an 
+             */
+            function JSONConstructor(array, type){
+
+                this.type = type;
+                this.coordinates = array;
+
             }
 
-        }
-
-        
-        function showPosition(position) {
-
-            let location = new Array(position.coords.longitude, position.coords.latitude)
-
-            location = new JSONConstructor(location, "Point")
-
-            document.getElementById("textfield").innerHTML = JSON.stringify(location)
-
-        
-        
-            let reader = new FileReader();
-
-            reader = JSON.stringify(document.getElementById("textfield").value);
-
-            console.log(reader);
-
-        }
-        
-        function JSONConstructor(array, type){
-
-            this.type = type
-            this.coordinates = array
-
-        }
-
-
-        document.getElementById("ausgabe").innerHTML = ausgabe;
+            document.getElementById("ausgabe").innerHTML = ausgabe;
 
         </script>
         

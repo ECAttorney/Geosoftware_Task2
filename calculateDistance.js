@@ -6,10 +6,10 @@ var ausgabe = "";
 // Funktion, welche die Distanz zwischen 2 Punkten berechnet. Quelle: https://www.movable-type.co.uk/scripts/latlong.html
 function calculateDistance(newPoint){
 
-    let countOfPois = (pois.feature.length)
+    let countOfPois = (pois.value[1].length)
     console.log(countOfPois);
 
-    for(var i = 0; i < 16; i++){
+    for(var i = 0; i < countOfPois; i++){
 
         var lat1 = newPoint[0];
         var lat2 = newPoint[1];
